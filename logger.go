@@ -13,6 +13,7 @@ const (
 	LEVEL_INFO
 	LEVEL_WARN
 	LEVEL_ERROR
+	LEVEL_OFF
 )
 
 type Logger struct {
@@ -32,6 +33,34 @@ func NewLogger(f string, l LogLevel) *Logger {
 	logger.Logger = log.New(file, "", log.Ldate|log.Ltime)
 
 	return logger
+}
+
+func NewLoggerFromConfig() *Logger {
+	props := make(map[string]string)
+	err := LoadConfig("logging.cfg", props)
+	if err != nil {
+		log.Fatalf("Error loading config: %v", err)
+	}
+
+	var level LogLevel
+	switch props["level"] {
+	case "TRACE", "trace":
+		level = LEVEL_TRACE
+	case "DEBUG", "debug":
+		level = LEVEL_DEBUG
+	case "INFO", "info":
+		level = LEVEL_INFO
+	case "WARN", "warn":
+		level = LEVEL_WARN
+	case "ERROR", "error":
+		level = LEVEL_ERROR
+	case "OFF", "off":
+		level = LEVEL_ERROR
+	default:
+		log.Fatalf("Error loading config: %s is not a valid level", props["level"])
+	}
+
+	return NewLogger(props["file"], level)
 }
 
 func (logger *Logger) Close() {

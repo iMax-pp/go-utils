@@ -143,7 +143,7 @@ func (logger *Logger) Errorf(format string, v ...interface{}) {
 }
 
 func (logger *Logger) Fatal(v ...interface{}) {
-	logger.Logger.Println(append([]interface{}{"FATAL:"}, v...)...)
+	logger.Logger.Fatalln(append([]interface{}{"FATAL:"}, v...)...)
 }
 
 func (logger *Logger) Fatalf(format string, v ...interface{}) {

@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"errors"
+	"fmt"
 	"log"
 	"os"
 )
@@ -35,9 +37,9 @@ func NewLogger(f string, l LogLevel) (*Logger, error) {
 	return logger, nil
 }
 
-func NewLoggerFromConfig(f string) (*Logger, error) {
+func NewLoggerFromConfig(file string) (*Logger, error) {
 	props := make(map[string]string)
-	err := LoadConfig(f, props)
+	err := LoadConfig(file, props)
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +59,7 @@ func NewLoggerFromConfig(f string) (*Logger, error) {
 	case "OFF", "off":
 		level = LEVEL_ERROR
 	default:
-		log.Fatalf("Error loading config: %s is not a valid level", props["level"])
+		return nil, errors.New(fmt.Sprintf("Error loading config: %s is not a valid level", props["level"]))
 	}
 
 	return NewLogger(props["file"], level)

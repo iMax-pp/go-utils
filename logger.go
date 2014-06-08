@@ -23,23 +23,23 @@ type Logger struct {
 	Output *os.File
 }
 
-func NewLogger(f string, l LogLevel) *Logger {
+func NewLogger(f string, l LogLevel) (*Logger, error) {
 	file, err := os.OpenFile(f, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
-		log.Fatalf("Error opening file: %v", err)
+		return nil, err
 	}
 
 	logger := &Logger{Output: file, Level: l}
 	logger.Logger = log.New(file, "", log.Ldate|log.Ltime)
 
-	return logger
+	return logger, nil
 }
 
-func NewLoggerFromConfig() *Logger {
+func NewLoggerFromConfig(f string) (*Logger, error) {
 	props := make(map[string]string)
-	err := LoadConfig("logging.cfg", props)
+	err := LoadConfig(f, props)
 	if err != nil {
-		log.Fatalf("Error loading config: %v", err)
+		return nil, err
 	}
 
 	var level LogLevel

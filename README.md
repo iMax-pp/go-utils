@@ -36,26 +36,41 @@ type Logger struct {
     Output *os.File
 }
 
-// Logger creation, from parameters or configuration file
+// Logger creation, from parameters
 func NewLogger(output string, level LogLevel) (*Logger, error)
+// Logger creation, from configuration file
 func NewLoggerFromConfig(filename string) (*Logger, error)
 // Don't forget to close the Logger afterward
 func (logger *Logger) Close()
 
 // Logging methods…
+// Trace
 func (logger *Logger) Trace(v ...interface{})
+// Trace with format
 func (logger *Logger) Tracef(format string, v ...interface{})
+// Trace begin
 func (logger *Logger) TraceBegin(f string)
+// Trace end
 func (logger *Logger) TraceEnd(f string)
+// Debug
 func (logger *Logger) Debug(v ...interface{})
+// Debug with format
 func (logger *Logger) Debugf(format string, v ...interface{})
+// Info
 func (logger *Logger) Info(v ...interface{})
+// Info with format
 func (logger *Logger) Infof(format string, v ...interface{})
+// Warn
 func (logger *Logger) Warn(v ...interface{})
+// Warn with format
 func (logger *Logger) Warnf(format string, v ...interface{})
+// Error
 func (logger *Logger) Error(v ...interface{})
+// Error with format
 func (logger *Logger) Errorf(format string, v ...interface{})
+// Fatal
 func (logger *Logger) Fatal(v ...interface{})
+// Fatal with format
 func (logger *Logger) Fatalf(format string, v ...interface{})
 ```
 
@@ -72,8 +87,9 @@ type Mailer struct {
     To     string
 }
 
-// Mailer creation, from parameters or configuration file
+// Mailer creation, from parameters
 func NewMailer(server, port, from, to string) *Mailer
+// Mailer creation, from configuration file
 func NewMailerFromConfig(filename string) (*Mailer, error)
 // Send an email…
 func (mail *Mailer) SendMail(msg string) error

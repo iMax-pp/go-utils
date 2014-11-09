@@ -1,8 +1,6 @@
 package main
 
-import (
-	"github.com/iMax-pp/utils"
-)
+import utils "github.com/iMax-pp/go-utils"
 
 var logger *utils.Logger
 

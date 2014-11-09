@@ -17,9 +17,7 @@ Ease logging usage.
 
 ### Usage Example:
 ```go
-import (
-    "github.com/iMax-pp/utils"
-)
+import utils "github.com/iMax-pp/go-utils"
 
 var logger *utils.Logger
 
@@ -97,7 +95,7 @@ Easily send emails.
 ```go
 import (
     "log"
-	"github.com/iMax-pp/utils"
+	utils "github.com/iMax-pp/go-utils"
 )
 
 func main() {

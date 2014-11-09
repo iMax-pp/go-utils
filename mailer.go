@@ -1,3 +1,5 @@
+// Copyright (c) 2014 Maxime SIMON. All rights reserved.
+
 package utils
 
 import (
@@ -15,9 +17,8 @@ func NewMailer(server, port, from, to string) *Mailer {
 	return &Mailer{Server: server, Port: port, From: from, To: to}
 }
 
-func NewMailerFromConfig(f string) (*Mailer, error) {
-	props := make(map[string]string)
-	err := LoadConfig(f, props)
+func NewMailerFromConfig(filename string) (*Mailer, error) {
+	props, err := LoadConfig(filename)
 	if err != nil {
 		return nil, err
 	}

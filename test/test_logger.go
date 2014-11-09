@@ -7,7 +7,11 @@ import (
 var logger *utils.Logger
 
 func main() {
-	logger = utils.NewLogger("test.log", utils.LEVEL_TRACE)
+	logger, _ = utils.NewLogger("test_from_param.log", utils.LEVEL_TRACE)
+	test()
+	logger.Close()
+
+	logger, _ = utils.NewLoggerFromConfig("logger.properties")
 	test()
 	logger.Close()
 }

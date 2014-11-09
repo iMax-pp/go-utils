@@ -1,3 +1,5 @@
+// Copyright (c) 2014 Maxime SIMON. All rights reserved.
+
 package utils
 
 import (
@@ -25,21 +27,20 @@ type Logger struct {
 	Output *os.File
 }
 
-func NewLogger(f string, l LogLevel) (*Logger, error) {
-	file, err := os.OpenFile(f, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+func NewLogger(filename string, level LogLevel) (*Logger, error) {
+	file, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		return nil, err
 	}
 
-	logger := &Logger{Output: file, Level: l}
+	logger := &Logger{Output: file, Level: level}
 	logger.Logger = log.New(file, "", log.Ldate|log.Ltime)
 
 	return logger, nil
 }
 
-func NewLoggerFromConfig(file string) (*Logger, error) {
-	props := make(map[string]string)
-	err := LoadConfig(file, props)
+func NewLoggerFromConfig(filename string) (*Logger, error) {
+	props, err := LoadConfig(filename)
 	if err != nil {
 		return nil, err
 	}
@@ -150,4 +151,23 @@ func (logger *Logger) Fatal(v ...interface{}) {
 
 func (logger *Logger) Fatalf(format string, v ...interface{}) {
 	logger.Logger.Fatalf("FATAL: "+format+"\n", v...)
+}
+
+func (lvl LogLevel) String() string {
+	switch lvl {
+	case LEVEL_TRACE:
+		return "TRACE"
+	case LEVEL_DEBUG:
+		return "DEBUG"
+	case LEVEL_INFO:
+		return "INFO"
+	case LEVEL_WARN:
+		return "WARN"
+	case LEVEL_ERROR:
+		return "ERROR"
+	case LEVEL_OFF:
+		return "OFF"
+	default:
+		return ""
+	}
 }

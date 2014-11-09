@@ -15,6 +15,22 @@ func LoadConfig(filename string) (map[string]string, error) {}
 ## Logging
 Ease logging usage.
 
+### Usage Example:
+```go
+import (
+    "github.com/iMax-pp/utils"
+)
+
+var logger *utils.Logger
+
+func main() {
+    logger, _ = utils.NewLogger("test.log", utils.LEVEL_TRACE)
+    defer logger.Close()
+
+    logger.Info("Logger level:", logger.Level)
+}
+```
+
 ### Functions:
 ```go
 // Logging level type
@@ -76,6 +92,27 @@ func (logger *Logger) Fatalf(format string, v ...interface{}) {}
 
 ## Mailer
 Easily send emails.
+
+### Usage Example:
+```go
+import (
+    "log"
+	"github.com/iMax-pp/utils"
+)
+
+func main() {
+    mailer, err := utils.NewMailer("smtp.server.com", 25, "sender@server.com", "recipient@server.com")
+    if err != nil {
+        log.Fatalln(err)
+    }
+
+    msg := "This is a test message."
+    err = mailer.SendMail(msg)
+    if err != nil {
+        log.Fatalln(err)
+    }
+}
+```
 
 ### Functions:
 ```go
